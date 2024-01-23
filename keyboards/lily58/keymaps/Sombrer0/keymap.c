@@ -66,7 +66,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   XXXXXXX, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                      KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    XXXXXXX,
   XXXXXXX, KC_DLR,  KC_PLUS, KC_LPRN, KC_RPRN, KC_AT,                     KC_PIPE, KC_MINS, KC_EQL,  KC_UNDS, KC_ASTR, XXXXXXX,
-  XXXXXXX, KC_EXLM, KC_HASH, KC_LCBR, KC_RCBR, KC_TILD, XXXXXXX, XXXXXXX, KC_AMPR, KC_LBRC, KC_RBRC, KC_PERC, KC_CIRC, XXXXXXX,
+  XXXXXXX, KC_EXLM, KC_HASH, KC_LCBR, KC_RCBR, KC_TILD, KC_BSLS, KC_SLSH, KC_AMPR, KC_LBRC, KC_RBRC, KC_PERC, KC_CIRC, XXXXXXX,
                              _______, _______, _______, _______, _______,  _______, _______, _______
 ),
 /* NAV
@@ -128,28 +128,14 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
 }
 
 // When you add source files to SRC in rules.mk, you can use functions.
-const char *read_layer_state(void);
-const char *read_logo(void);
-void set_keylog(uint16_t keycode, keyrecord_t *record);
-const char *read_keylog(void);
-const char *read_keylogs(void);
-
-// const char *read_mode_icon(bool swap);
-// const char *read_host_led_state(void);
-// void set_timelog(void);
-// const char *read_timelog(void);
+const char *read_logo_l(void);
+const char *read_logo_r(void);
 
 bool oled_task_user(void) {
   if (is_keyboard_master()) {
-    // If you want to change the display of OLED, you need to change here
-    oled_write_ln(read_layer_state(), false);
-    oled_write_ln(read_keylog(), false);
-    oled_write_ln(read_keylogs(), false);
-    //oled_write_ln(read_mode_icon(keymap_config.swap_lalt_lgui), false);
-    //oled_write_ln(read_host_led_state(), false);
-    //oled_write_ln(read_timelog(), false);
+    oled_write(read_logo_l(), false);
   } else {
-    oled_write(read_logo(), false);
+    oled_write(read_logo_r(), false);
   }
     return false;
 }
@@ -194,12 +180,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         tap_code(KC_N);
         tap_code(KC_U);
       }
-  }
-  if (record->event.pressed) {
-#ifdef OLED_ENABLE
-    set_keylog(keycode, record);
-#endif
-    // set_timelog();
   }
   return true;
 }

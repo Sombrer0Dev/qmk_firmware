@@ -30,4 +30,4 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define TAPPING_TERM 200
 
 #define BOTH_SHIFTS_TURNS_ON_CAPS_WORD
-
+#define OLED_FONT_H "keyboards/lily58/keymaps/Sombrer0/getaway.c"
